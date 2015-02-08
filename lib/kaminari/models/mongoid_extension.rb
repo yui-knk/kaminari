@@ -15,12 +15,11 @@ module Kaminari
         end
 
         class << self
-          def inherited_with_kaminari(kls)
-            inherited_without_kaminari(kls)
-            kls.send(:include, Kaminari::MongoidExtension::Document.dup)
+          def inherited(kls)
+            super
+            kls.send(:include, Kaminari::MongoidExtension::Document.dup) unless kls.is_a? Kaminari::MongoidExtension::Document
           end
-          alias_method_chain :inherited, :kaminari
-        end unless respond_to?(:inherited_with_kaminari)
+        end
       end
     end
   end
